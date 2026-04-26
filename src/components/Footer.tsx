@@ -22,10 +22,10 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
         <div className="col-span-1 md:col-span-2">
           <Link to="/" className="font-serif text-2xl text-white mb-4 inline-block">
-            Gigi's <span className="font-light italic text-brand-primary">Catering</span>
+            Gigi's <span className="font-light italic text-brand-primary">312</span>
           </Link>
           <p className="max-w-xs font-light text-sm leading-relaxed mb-6">
-            Macht Chicagoer Events mit unvergesslichem Essen und makelloser Ausführung zu etwas Besonderem.
+            Macht Wiesbadener Events mit unvergesslichem Essen und makelloser Ausführung zu etwas Besonderem (+ 100km).
           </p>
           <div className="flex gap-4">
             <a href="https://instagram.com/gigi_s312" target="_blank" rel="noreferrer" className="text-white hover:text-brand-primary transition-colors">
@@ -70,7 +70,7 @@ export default function Footer() {
       </div>
       
       <div className="max-w-7xl mx-auto pt-8 border-t border-white/10 text-xs font-light text-center md:text-left flex flex-col md:flex-row justify-between items-center gap-6">
-        <p>&copy; {new Date().getFullYear()} Gigi's Catering. Alle Rechte vorbehalten.</p>
+        <p>&copy; {new Date().getFullYear()} Gigi's 312. Alle Rechte vorbehalten.</p>
         <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6 w-full md:w-auto justify-between md:justify-end">
           <div className="space-x-4">
             <Link to="/datenschutz" className="hover:text-white transition-colors">Datenschutzerklärung</Link>
@@ -79,7 +79,7 @@ export default function Footer() {
           </div>
           <button 
             onClick={() => scrollTo('inquire')} 
-            className="bg-brand-primary text-brand-dark px-5 py-2.5 rounded-full font-semibold uppercase tracking-wider text-[10px] hover:bg-white transition-colors shadow-sm"
+            className="bg-brand-primary text-white hover:bg-orange-700 px-5 py-2.5 rounded-full font-semibold uppercase tracking-wider text-[10px] transition-colors shadow-sm"
           >
             Jetzt Angebot anfordern
           </button>

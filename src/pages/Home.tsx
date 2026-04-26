@@ -8,6 +8,7 @@ import {
 import { useLocation } from 'react-router-dom';
 import Navigation from '../components/Navigation';
 import Footer from '../components/Footer';
+import { AnimatedCounter } from '../components/AnimatedCounter';
 
 // Typ für einen Instagram-Post
 interface IgPost {
@@ -91,7 +92,8 @@ export default function Home() {
     type: '',
     location: '',
     diet: '',
-    message: ''
+    message: '',
+    website: '' // Honeypot field for bot protection
   });
   
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
@@ -229,15 +231,22 @@ export default function Home() {
       return;
     }
 
+    // Honeypot check - if filled, silently resolve (bot detection)
+    if (formData.website) {
+      console.warn('Bot detected by honeypot field.');
+      setFormSubmitted(true);
+      return;
+    }
+
+    // Here you would normally send the data to your backend
     setFormSubmitted(true);
-    setTimeout(() => {
-      setFormSubmitted(false);
-      setFormData({
-        firstName: '', lastName: '', email: '', phone: '', date: '', guests: '', type: '', location: '', diet: '', message: ''
-      });
-      setTouched({});
-      setErrors({});
-    }, 5000);
+    // Let the modal stay open until user closes it, no auto-reset needed as user closes it manually
+    // We can clear form data immediately
+    setFormData({
+      firstName: '', lastName: '', email: '', phone: '', date: '', guests: '', type: '', location: '', diet: '', message: '', website: ''
+    });
+    setTouched({});
+    setErrors({});
   };
 
   return (
@@ -365,7 +374,7 @@ export default function Home() {
           <div className="text-center mt-12">
             <button
                onClick={() => scrollTo('social-media')}
-               className="inline-flex items-center gap-3 bg-brand-dark text-white px-8 py-4 rounded-full uppercase tracking-widest text-sm font-semibold hover:bg-brand-primary transition-colors"
+               className="inline-flex items-center gap-3 bg-brand-primary text-white px-8 py-4 rounded-full uppercase tracking-widest text-sm font-semibold hover:bg-orange-700 transition-colors"
             >
                Mehr Inhalte entdecken <ChevronRight size={18} />
             </button>
@@ -757,6 +766,65 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Stats Section */}
+      <section className="py-20 bg-brand-dark text-white relative overflow-hidden">
+        <div className="absolute inset-0 opacity-10">
+          <img src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&q=80&w=2000" alt="Texture" className="w-full h-full object-cover grayscale" />
+        </div>
+        <div className="max-w-7xl mx-auto px-6 relative z-10">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 text-center">
+            <div className="space-y-3">
+              <div className="font-serif text-5xl md:text-6xl text-brand-primary">
+                <AnimatedCounter end={12} suffix="+" />
+              </div>
+              <p className="text-white/70 uppercase tracking-widest text-xs font-semibold">Jahre Erfahrung</p>
+            </div>
+            <div className="space-y-3">
+              <div className="font-serif text-5xl md:text-6xl text-brand-primary">
+                <AnimatedCounter end={450} suffix="+" />
+              </div>
+              <p className="text-white/70 uppercase tracking-widest text-xs font-semibold">Erfolgreiche Events</p>
+            </div>
+            <div className="space-y-3">
+              <div className="font-serif text-5xl md:text-6xl text-brand-primary">
+                <AnimatedCounter end={25} suffix="k+" />
+              </div>
+              <p className="text-white/70 uppercase tracking-widest text-xs font-semibold">Zufriedene Gäste</p>
+            </div>
+            <div className="space-y-3">
+              <div className="font-serif text-5xl md:text-6xl text-brand-primary">
+                <AnimatedCounter end={100} suffix="%" />
+              </div>
+              <p className="text-white/70 uppercase tracking-widest text-xs font-semibold">Leidenschaft</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ Section */}
+      <section className="py-24 bg-white px-6">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="font-serif text-4xl md:text-5xl mb-4 text-brand-dark">Häufige Fragen</h2>
+            <p className="text-stone-600 max-w-xl mx-auto">Alles, was Sie für die Planung wissen müssen.</p>
+          </div>
+          
+          <div className="space-y-6">
+            {[
+              { q: "Wie weit im Voraus sollten wir buchen?", a: "Für Hochzeiten und große Firmenevents empfehlen wir eine Vorlaufzeit von 3-6 Monaten. Für kleinere private Feiern reichen oft 4-6 Wochen. Fragen Sie aber gerne auch spontan an!" },
+              { q: "Bieten Sie auch vegetarische und vegane Alternativen an?", a: "Selbstverständlich! Wir haben fantastische fleischlose Optionen, von veganer Pasta bis zu pflanzlichen Burger-Patties, die genauso köstlich sind wie unsere Klassiker." },
+              { q: "Was benötigen Sie vor Ort?", a: "Wir bringen fast alles selbst mit! Unser Food-Truck/Catering-Zelt benötigt lediglich einen festen Standplatz, einen Stromanschluss (230V oder Starkstrom je nach Menü) und Zugang zu frischem Wasser." },
+              { q: "Werden die Speisen vor Ort frisch zubereitet?", a: "Ja! Schnitzel werden frisch in der Pfanne goldbraun gebraten, die Pasta wird à la minute geschwenkt und Cocktails direkt vor den Augen Ihrer Gäste gemixt. Frische ist unser oberstes Gebot." }
+            ].map((faq, idx) => (
+              <div key={idx} className="bg-stone-50 rounded-2xl p-6 md:p-8">
+                <h3 className="font-semibold text-lg text-brand-dark mb-3">{faq.q}</h3>
+                <p className="text-stone-600 leading-relaxed text-sm md:text-base">{faq.a}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Inquiry Form Section */}
       <section id="inquire" className="py-24 bg-stone-100 px-6 overflow-hidden">
         <div className="max-w-4xl mx-auto">
@@ -767,8 +835,8 @@ export default function Home() {
             transition={{ duration: 0.6 }}
             className="text-center mb-12"
           >
-            <h2 className="font-serif text-4xl md:text-5xl mb-4">Lassen Sie uns gemeinsam planen</h2>
-            <p className="text-stone-600 max-w-xl mx-auto">Füllen Sie das untenstehende Formular aus, um ein genaues Angebot zu erhalten. Lassen Sie uns direkt mit der offiziellen Menüplanung beginnen.</p>
+            <h2 className="font-serif text-4xl md:text-5xl mb-4">Erzählen Sie uns von Ihrem Event</h2>
+            <p className="text-stone-600 max-w-xl mx-auto">Schreiben Sie uns ein paar Details zu Ihrer Idee. Ob feines Hochzeitscatering oder eine Gartenparty mit frischem Schnitzel – wir melden uns persönlich bei Ihnen.</p>
           </motion.div>
 
           <motion.div 
@@ -778,22 +846,23 @@ export default function Home() {
             transition={{ duration: 0.8 }}
             className="bg-white rounded-3xl p-8 md:p-12 shadow-sm border border-stone-200"
           >
-            {formSubmitted ? (
-              <motion.div 
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                className="flex flex-col items-center justify-center py-16 text-center"
-              >
-                <div className="w-20 h-20 bg-green-50 rounded-full flex items-center justify-center mb-6">
-                  <CheckCircle2 size={40} className="text-green-600" />
-                </div>
-                <h3 className="font-serif text-3xl mb-4">Anfrage erhalten!</h3>
-                <p className="text-stone-600 max-w-md">Vielen Dank für Ihre Nachricht. Gigi und unser Team werden Ihre Angaben prüfen und sich innerhalb von 24-48 Stunden mit einem Angebot bei Ihnen melden.</p>
-              </motion.div>
-            ) : (
-              <form onSubmit={handleSubmit} className="space-y-6" noValidate>
-                <div className="grid md:grid-cols-2 gap-6">
-                  <div className="space-y-2">
+            <form onSubmit={handleSubmit} className="space-y-6" noValidate>
+              {/* Honeypot field hidden from users but visible to bots */}
+              <div className="hidden">
+                <label htmlFor="website">Website</label>
+                <input 
+                  type="text" 
+                  id="website" 
+                  name="website" 
+                  tabIndex={-1} 
+                  autoComplete="off" 
+                  value={formData.website} 
+                  onChange={handleFormChange} 
+                />
+              </div>
+
+              <div className="grid md:grid-cols-2 gap-6">
+                <div className="space-y-2">
                     <label htmlFor="firstName" className="text-xs uppercase tracking-wider font-semibold text-stone-500">Vorname *</label>
                     <input 
                       id="firstName"
@@ -952,14 +1021,46 @@ export default function Home() {
                   ></textarea>
                 </div>
 
-                <button type="submit" className="w-full bg-brand-dark text-white rounded-lg py-4 uppercase tracking-widest text-sm font-semibold hover:bg-brand-primary transition-colors">
+                <button type="submit" className="w-full bg-brand-primary text-white rounded-lg py-4 uppercase tracking-widest text-sm font-semibold hover:bg-orange-700 transition-colors">
                   Angebot anfordern
                 </button>
               </form>
-            )}
           </motion.div>
         </div>
       </section>
+
+      {/* Success Modal */}
+      {formSubmitted && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm" onClick={() => setFormSubmitted(false)}>
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.95, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.95, y: 20 }}
+            onClick={(e) => e.stopPropagation()}
+            className="bg-white rounded-3xl p-8 md:p-12 shadow-2xl max-w-lg w-full text-center relative"
+          >
+            <button 
+              onClick={() => setFormSubmitted(false)}
+              className="absolute top-6 right-6 text-stone-400 hover:text-stone-800 transition-colors"
+            >
+              <X size={24} />
+            </button>
+            <div className="w-20 h-20 bg-green-50 rounded-full flex items-center justify-center mx-auto mb-6 text-green-600">
+              <CheckCircle2 size={40} />
+            </div>
+            <h3 className="font-serif text-3xl md:text-4xl mb-4 text-brand-dark">Anfrage erhalten!</h3>
+            <p className="text-stone-600 leading-relaxed mb-8">
+              Vielen Dank für Ihre Nachricht. Gigi und sein Team werden Ihre Angaben in Ruhe sichten. Sie erhalten in der Regel innerhalb von <strong>24-48 Stunden</strong> eine Rückmeldung mit einem ersten Angebot.
+            </p>
+            <button 
+              onClick={() => setFormSubmitted(false)}
+              className="w-full bg-brand-primary text-white rounded-full py-4 uppercase tracking-widest text-sm font-semibold hover:bg-brand-dark transition-colors"
+            >
+              Fenster schließen
+            </button>
+          </motion.div>
+        </div>
+      )}
 
       <Footer />
     </div>

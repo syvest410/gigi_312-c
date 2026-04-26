@@ -18,7 +18,7 @@ export default function NotFound() {
           </p>
           <Link 
             to="/" 
-            className="inline-flex items-center gap-2 bg-brand-dark text-white px-8 py-4 rounded-full uppercase tracking-widest text-sm font-semibold hover:bg-brand-primary transition-colors"
+            className="inline-flex items-center gap-2 bg-brand-primary text-white px-8 py-4 rounded-full uppercase tracking-widest text-sm font-semibold hover:bg-orange-700 transition-colors"
           >
             <ChevronLeft size={18} />
             Zurück zur Startseite

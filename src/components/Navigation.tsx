@@ -38,8 +38,8 @@ export default function Navigation() {
     : isScrolled ? 'text-brand-dark' : 'text-white/90';
 
   const btnClass = location.pathname !== '/'
-    ? 'bg-brand-dark text-white hover:bg-brand-primary'
-    : isScrolled ? 'bg-brand-dark text-white hover:bg-brand-primary' : 'bg-white text-brand-dark hover:bg-white/90';
+    ? 'bg-brand-primary text-white hover:bg-brand-dark'
+    : isScrolled ? 'bg-brand-primary text-white hover:bg-brand-dark' : 'bg-brand-primary text-white hover:bg-brand-dark';
 
   const brandTextClass = location.pathname !== '/'
     ? 'text-brand-dark'
@@ -49,7 +49,7 @@ export default function Navigation() {
     <nav className={`fixed w-full z-50 transition-all duration-300 ${navClass}`}>
       <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
         <Link to="/" className={`font-serif text-2xl md:text-3xl font-semibold tracking-wide cursor-pointer transition-colors ${brandTextClass}`} onClick={() => window.scrollTo(0,0)}>
-          Gigi's <span className="font-light italic text-brand-primary">Catering</span>
+          Gigi's <span className="font-light italic text-brand-primary">312</span>
         </Link>
         
         {/* Desktop Nav */}
